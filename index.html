@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="utf-8">
+  <title>WebSockets</title>
+</head>
+<body>
+
+  <script>
+    var sock = new WebSocket("ws://localhost:8080");
+    sock.onopen = function(event) {
+      setTimeout(() => {
+        sock.send("hoo");
+      }, 1000);
+    };
+  </script>
+</body>
+</html>
