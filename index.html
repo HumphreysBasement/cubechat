@@ -32,7 +32,7 @@
 
     let name = prompt("What is your name?");
 //"ws://localhost:8080"
-    let sock = new WebSocket("ws://https://jimryanishoo.herokuapp.com");
+    let sock = new WebSocket("ws://jimryanishoo.herokuapp.com");
 
     sock.onopen = () => {
       sock.send(JSON.stringify({
