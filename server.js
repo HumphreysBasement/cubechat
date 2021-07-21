@@ -12,7 +12,6 @@ wss.on('connection', function connection(ws) {
     if(message.type == "name"){
       ws.nickname = message.data;
       wss.clients.forEach((client) => {
-        if(client != ws)
         client.send(JSON.stringify({
           name: ws.nickname,
           data: ws.nickname + " joined."
@@ -35,7 +34,7 @@ wss.on('connection', function connection(ws) {
     console.log( ws.nickname +" left");
     wss.clients.forEach((client) => {
       client.send(JSON.stringify({
-        name: ws.nickname,
+        name: "Server",
         data: ws.nickname + " left."
       }));
     });
