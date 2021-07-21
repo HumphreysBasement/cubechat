@@ -17,9 +17,9 @@ wss.on('connection', function connection(ws) {
           name: ws.nickname,
           data: ws.nickname + " joined."
         }));
+      });
       return;
     }
-
     console.log('received: ', message);
 
     wss.clients.forEach((client) => {
@@ -38,6 +38,7 @@ wss.on('connection', function connection(ws) {
         name: ws.nickname,
         data: ws.nickname + " left."
       }));
+    });
   });
 
   console.log(ws.nickname + " joined");
