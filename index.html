@@ -4,15 +4,61 @@
   <meta charset="utf-8">
   <title>WebSockets</title>
 </head>
+<style>
+#log {
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+  border: solid black;
+  border-radius: 7px;
+}
+#sendmsg {
+  width: 230px;
+  margin: 30px auto;
+}
+</style>
 <body>
 
+<div id="log"> </div>
+
+<div id="sendmsg">
+  <input type = "text" placeholder="message" id="text">
+  <button> send </button>
+</div>
+
+
+
   <script>
-    var sock = new WebSocket("ws://https://jimryanishoo.herokuapp.com");
-    sock.onopen = function(event) {
-      setTimeout(() => {
-        sock.send("hoo");
-      }, 1000);
-    };
+
+    let name = prompt("What is your name?");
+//"ws://localhost:8080"
+    let sock = new WebSocket("ws://https://jimryanishoo.herokuapp.com");
+
+    sock.onopen = () => {
+      sock.send(JSON.stringify({
+        type: "name",
+        data: name
+      }));
+    }
+    let log = document.getElementById('log');
+
+    sock.onmessage = function(event){
+      console.log(event);
+      let json = JSON.parse(event.data);
+      log.innerHTML += json.name + ": " + json.data + "<br>";
+    }
+
+    document.querySelector('button').onclick = () => {
+      let text = document.getElementById('text').value;
+      sock.send(JSON.stringify({
+        type: "message",
+        data: text
+      }));
+      log.innerHTML += "you: "+text+"<br>";
+    }
   </script>
+
+
+
 </body>
 </html>
