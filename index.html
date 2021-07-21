@@ -48,13 +48,25 @@
       log.innerHTML += json.name + ": " + json.data + "<br>";
     }
 
-    document.querySelector('button').onclick = () => {
+    const sendMessage = () => {
       let text = document.getElementById('text').value;
       sock.send(JSON.stringify({
         type: "message",
         data: text
       }));
       log.innerHTML += "you: "+text+"<br>";
+      document.getElementById('text').value = "";
+    };
+
+    document.querySelector('input').addEventListener("keydown", (event) => {
+      if(event.key === 'Enter'){
+        sendMessage();
+      }
+    });
+
+
+    document.querySelector('button').onclick = () => {
+      sendMessage();
     }
   </script>
 
