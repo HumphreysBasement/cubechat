@@ -11,6 +11,12 @@ wss.on('connection', function connection(ws) {
 
     if(message.type == "name"){
       ws.nickname = message.data;
+      wss.clients.forEach((client) => {
+        if(client != ws)
+        client.send(JSON.stringify({
+          name: ws.nickname,
+          data: ws.nickname + " joined."
+        }));
       return;
     }
 
@@ -27,6 +33,10 @@ wss.on('connection', function connection(ws) {
 
   ws.on('close', () => {
     console.log( ws.nickname +" left");
+    client.send(JSON.stringify({
+      name: ws.nickname,
+      data: ws.nickname + " left."
+    }));
   });
 
   console.log(ws.nickname + " joined");
