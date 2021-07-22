@@ -35,7 +35,6 @@ when client says 'move', do not teleport it instantly. instead, store as like
 
 
     ws.currPosition   = { x: 0, y: 0, z: 0 }
-    ws.targetPosition = { x: 0, y: 0, z: 0 }
 
     //show new user to already existing users
     broadcast({
@@ -122,7 +121,7 @@ const tinymove = (cube) => {
     let vec = v3sub(cube.currPosition, cube.targetPosition);
     const mag = v3mag(vec)
     if (mag === 0) {
-        return
+        return // should never hpapen probably
     }
     // does not let cube go farther than intended
     if (mag < movespeed) { // manually teleport
