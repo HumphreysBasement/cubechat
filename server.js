@@ -96,8 +96,8 @@ m i j
 */
 
 // 'normalised' vector times movespeed!!! 'asam'
-const tickspeed = 0.1  // send updates every {tickspeed} milliseconds
-const movespeed = 0.002 // move 0.8 units per update
+const tickspeed = 50  // send updates every {tickspeed} milliseconds
+const movespeed = 0.2 // move 0.8 units per update
 
 // what other functions would we need to calculate a 'noramlised' vector?
 
