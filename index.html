@@ -129,10 +129,6 @@
     scene.add( directionalLight );
     scene.position.set(1, 1, 1)
 
-    //document.querySelector('body').appendChild(canv)
-
-    const players = {}
-
     var animate = function () {
         requestAnimationFrame( animate );
         renderer.render( scene, camera );
@@ -143,30 +139,15 @@
     const TEXTBOX = document.querySelector('#textbox')
 
     ;(async _=>{
-    const host = 'hooisjimryan.herokuapp.com';
-    const name = prompt("jim eddie ryan");
-    const sock = new WebSocket(`ws://${host}/chat/${name}`)??
+    const players = {}
+    const host = 'localhost:8080' //zim
 
-    //const sock = new WebSocket(`ws://${host}/chat/${encodeURIComponent(username)}`)
-
-    console.log('waiting...')
-    // wait for socket to fully open
-    await new Promise(res => sock.onopen = res)
-    console.log('opened')
-
-    const send_json = json => sock.send(JSON.stringify(json))
-
-    const send_message = msg => sock.send(JSON.stringify({ type: 'say', message: msg }))
-    //const send_message = msg => sock.send(JSON.stringify({ user: username, text: msg }))
-
-    send_message(`i have arrived!!`)
-
-    // send messages from textbox
-    TEXTBOX.addEventListener('keypress', e => {
-        if (e.key !== 'Enter') return
-        send_message(TEXTBOX.value)
-        TEXTBOX.value = ''
-    })
+    let name
+    let sock
+    
+    // try to connect
+    name = prompt("jim eddie ryan wishes to know your 'name'. please enter it.")
+    sock = new WebSocket(`ws://${host}/chat/${name}`)
 
     // display incoming messages
     sock.onmessage = e => {
@@ -184,9 +165,23 @@
             scene.remove(players[j.username].group)
             delete players[j.username]
         } else if (j.type === 'reject') {
-
+            name = prompt("jim eddie ryan wishes to know your 'name'. please enter it. ")
+            const newsocket = new WebSocket(`ws://${host}/chat/${name}`)
+            newsocket.onmessage = sock.onmessage
+            sock = newsocket
         }
     }
+
+    const send_json = json => sock.send(JSON.stringify(json)) 
+
+    const send_message = msg => sock.send(JSON.stringify({ type: 'say', message: msg }))
+
+    // send messages from textbox
+    TEXTBOX.addEventListener('keypress', e => {
+        if (e.key !== 'Enter') return
+        send_message(TEXTBOX.value)
+        TEXTBOX.value = ''
+    })
 
     const raycaster = new THREE.Raycaster()
     const mouse = new THREE.Vector2()
