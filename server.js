@@ -127,6 +127,7 @@ const tinymove = (cube) => {
     // does not let cube go farther than intended
     if (mag < movespeed) { // manually teleport
         cube.currPosition = { ...cube.targetPosition }
+        cube.targetPosition = null
     } else {
         let dir = v3norm(vec);
         cube.currPosition.x += movespeed*(dir.x);
@@ -138,4 +139,4 @@ const tinymove = (cube) => {
 
 // this runs  '_ => wss.clients.forEach(tinymove)' every, tickspeed milliseconds
 // big controller
-const move = setInterval(_ => wss.clients.forEach(tinymove), tickspeed);
+const move = setInterval(_ => wss.clients.filter(w => w.targetPosition).forEach(tinymove), tickspeed);
