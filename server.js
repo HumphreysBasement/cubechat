@@ -93,6 +93,18 @@ j i m
 i   i
 m i j
 
+z i m
+i   i
+m i z
+
+z i m r y a n
+i           a
+m           
+r
+y
+a
+n 
+
 */
 
 // 'normalised' vector times movespeed!!! 'asam'
@@ -138,4 +150,4 @@ const tinymove = (cube) => {
 
 // this runs  '_ => wss.clients.forEach(tinymove)' every, tickspeed milliseconds
 // big controller
-const move = setInterval(_ => wss.clients.filter(w => w.targetPosition).forEach(tinymove), tickspeed);
+const move = setInterval(_ => [...wss.clients].filter(w => w.targetPosition).forEach(tinymove), tickspeed);
